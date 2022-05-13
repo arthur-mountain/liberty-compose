@@ -8,6 +8,7 @@ export default global`
 }
 
 body,html{
+  height:100%;
   overflow-x: hidden;
 }
 

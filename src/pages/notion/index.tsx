@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import Notion from 'container/Notion/Notion';
 import Meta from 'component/Meta/Meta';
+import Notion from 'container/Notion/Notion';
 
 type PageProps = NextPage;
 

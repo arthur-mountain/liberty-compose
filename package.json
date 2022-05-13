@@ -1,5 +1,5 @@
 {
-  "name": "my-service",
+  "name": "liberty-compose",
   "packageManager": "yarn@3.2.0",
   "version": "1.0.0",
   "private": true,
@@ -16,12 +16,12 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.7.0",
     "@notionhq/client": "^1.0.4",
     "axios": "^0.27.2",
     "moment": "^2.29.3",
     "next": "12.1.6",
-    "quill": "^1.3.7",
     "react": "18.1.0",
     "react-dom": "18.1.0"
   },

@@ -11,7 +11,6 @@
     "jsx": "preserve",
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
     "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -54,8 +53,9 @@
       /* For next api */
       "server": [
         "server"
-      ],
-    }
+      ]
+    },
+    "strict": false
   },
   "include": [
     "next-env.d.ts",

@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
+import React from 'react';
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router';
+import Meta from 'component/Meta/Meta';
+import Home from 'container/Home/Home';
 
 type PageProps = NextPage;
 
-const Home: PageProps = () => {
-  const router = useRouter();
+const PageComponent: PageProps = () => {
+  return (
+    <>
+      <Meta title='liberty compose' />
+      <Home />
+    </>
+  )
+};
 
-  useEffect(() => {
-    router.replace('/notion')
-  }, [])
-
-  return null;
-}
-
-export default Home;
+export default PageComponent;
