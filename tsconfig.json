@@ -1,20 +1,70 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es2017"
+    ],
+    "jsx": "preserve",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "allowSyntheticDefaultImports": true,
+    "incremental": true,
+    "typeRoots": [
+      "interfaces",
+      "server/interfaces",
+      "node_modules/@types"
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "component": [
+        "component"
+      ],
+      "constant": [
+        "constant"
+      ],
+      "container": [
+        "container"
+      ],
+      "hooks": [
+        "hooks"
+      ],
+      "services": [
+        "services"
+      ],
+      "styles": [
+        "styles"
+      ],
+      "utils": [
+        "utils"
+      ],
+      /* For next api */
+      "server": [
+        "server"
+      ],
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".yarn",
+    ".next"
+  ]
 }
