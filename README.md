@@ -1,4 +1,5 @@
-# My Zero Website(should rename)
-
-Current Functions:
-    1. my frontend note preview with notion api.
+# Liberty compose website 
+#### My custom liberty website for compose multiple difference service.
+---
+# Current Functions
+### 1. <font color="lightskyblue">Notion preview</font>
