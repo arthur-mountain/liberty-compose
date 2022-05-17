@@ -8,7 +8,8 @@ import { NavList, NavListType } from 'constant/Nav';
 
 type Props = {
   children: React.ReactNode;
-}
+};
+const mockPermissionLevel = 3;
 
 const Layout = ({ children }: Props) => {
   const pathname = useRouter().pathname;
@@ -18,12 +19,14 @@ const Layout = ({ children }: Props) => {
     const transActiveStatusRecursion = (navs) => {
       if (!navs) return;
 
-      return navs.map(nav => {
-        const subNavs = transActiveStatusRecursion(nav?.subNavs);
-        const currentNav = { ...nav, isActive: nav.href === pathname };
+      return navs
+        .filter(nav => mockPermissionLevel >= nav.permissionLevel)
+        .map(nav => {
+          const subNavs = transActiveStatusRecursion(nav?.subNavs);
+          const currentNav = { ...nav, isActive: nav.href === pathname };
 
-        return subNavs ? { ...currentNav, subNavs } : currentNav;
-      })
+          return subNavs ? { ...currentNav, subNavs } : currentNav;
+        })
     };
 
     return transActiveStatusRecursion(NavList);

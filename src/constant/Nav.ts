@@ -1,7 +1,7 @@
 type ListType = {
   key: string;
   title: string;
-  permissions: any[];
+  permissionLevel: 1 | 2 | 3;
   isHidden: boolean;
   iconName: string;
   href: string;
@@ -12,18 +12,22 @@ export type NavListType = ListType & {
   subNavs?: ListType[];
 }
 
+/** 
+ * Permisiion: 1: common, 2:middle, 3:high , 
+ * high level permission will contain low level functions.
+ * */
 export const NavList: NavListType[] = [{
   key: 'Home',
   title: 'Home',
-  permissions: [],
+  permissionLevel: 1,
   isHidden: false,
   iconName: 'home',
   href: '/',
-  isActive: false
+  isActive: true
 }, {
   key: 'Notion',
   title: 'Notion',
-  permissions: [],
+  permissionLevel: 1,
   isHidden: false,
   iconName: 'eventnote',
   href: '/notion',
@@ -31,7 +35,7 @@ export const NavList: NavListType[] = [{
   subNavs: [{
     key: 'test',
     title: 'test',
-    permissions: [],
+    permissionLevel: 1,
     isHidden: false,
     iconName: 'face',
     href: '/notion/test',
