@@ -1,90 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { getPageBlocks } from 'services/Notion';
+import Categories from './Categories/Categories';
 
-// TODO: should split component...more;
 // TODO: shpuld use axios interator for error(422 default can't be catch);
 // TODO: isInit, isLoading status;
+// TODO: services axios intance should filter some information;
+// TODO: variables should rename;
 const Notion = () => {
-  const [stateNavList, setStateNavList] = useState<Notion.NavList[]>([{
-    category: '',
-    pageId: '',
-    pageUrl: '',
-    priority: 1,
-    title: 'design-patterns',
-  }, {
-    category: '',
-    pageId: '',
-    pageUrl: '',
-    priority: 1,
-    title: 'data-structures',
-  }, {
-    category: '',
-    pageId: '',
-    pageUrl: '',
-    priority: 1,
-    title: 'react',
-  }]);
+  const [categories, setCategories] = useState<Notion.Categories[]>([]);
   const [stateSubNavList, setStateSubNavList] = useState<Notion.SubNavList | null>(null);
 
-  const handleClick = (e, pageId) => {
+  const handleClick = async (e, pageId) => {
     e.preventDefault();
 
-    // fetch('/api/notion/page', {
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     pageId, perPage: 20
-    //   })
-    // })
-    //   .then(res => res.json())
-    //   .then(subNavList => {
-    //     if (subNavList?.statusCode !== 200) {
-    //       setStateSubNavList(subNavList.data)
-    //       return
-    //     }
+    try {
+      const resp = await getPageBlocks({ pageId, perPage: 20 });
 
-    //     throw new Error(subNavList.message);
-    //   })
-    //   .catch(error => console.log('my error: ', error.message));
+      if (resp.data.tatusCode === 200) {
+        setStateSubNavList(resp.data.data)
+      } else {
+        throw new Error(resp.data.tatusCode);
+      };
+    } catch (error) {
+      console.log('Get page blocks error: ', error.response.data.message);
+    }
   };
 
-  // useEffect(() => {
-  //   fetch('/api/notion')
-  //     .then(res => res.json())
-  //     .then(navList => {
-  //       if (navList?.statusCode === 200) {
-  //         setStateNavList(navList.data)
-  //         return
-  //       }
+  useEffect(() => {
+    fetch('/api/notion')
+      .then(res => res.json())
+      .then(categories => {
+        if (categories?.statusCode === 200) {
+          setCategories(categories.data)
+          return
+        }
 
-  //       throw new Error(navList.message);
-  //     })
-  //     .catch(error => console.log('my error: ', error.message));
-  // }, [])
+        throw new Error(categories.message);
+      })
+      .catch(error => console.log('my error: ', error.message));
+  }, [])
 
   return (
     <>
       Notion<br />
-      <ButtonGroup orientation="vertical">
-        {stateNavList?.map(nav => (
-          <Button
-            key={nav.title}
-            onClick={(e) => handleClick(e, nav.pageId)}
-            size="large"
-            variant="outlined"
-          >
-            <li >{nav.title}</li>
-          </Button>
-        ))}
-      </ButtonGroup>
+      <Categories categories={categories} handleClick={handleClick} />
       <hr></hr>
       {stateSubNavList?.data?.map(subNav => (
         <div key={subNav.id}>
-          {/* type Condition, like toggle without child_page.title */}
+          {/* TODO: type Condition, like toggle without child_page.title */}
           {subNav?.child_page?.title}
         </div>
       ))}
@@ -92,4 +56,4 @@ const Notion = () => {
   )
 }
 
-export default Notion
+export default Notion;

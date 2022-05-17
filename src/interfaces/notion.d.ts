@@ -1,5 +1,5 @@
 declare namespace Notion {
-  interface NavList {
+  interface Categories {
     category: string;
     pageId: string;
     pageUrl: string;

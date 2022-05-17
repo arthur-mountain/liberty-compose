@@ -10,7 +10,7 @@ type ListType = {
 
 export type NavListType = ListType & {
   subNavs?: ListType[];
-}
+};
 
 /** 
  * Permisiion: 1: common, 2:middle, 3:high , 
@@ -23,7 +23,7 @@ export const NavList: NavListType[] = [{
   isHidden: false,
   iconName: 'home',
   href: '/',
-  isActive: true
+  isActive: true,
 }, {
   key: 'Notion',
   title: 'Notion',
@@ -40,5 +40,5 @@ export const NavList: NavListType[] = [{
     iconName: 'face',
     href: '/notion/test',
     isActive: false,
-  }]
+  }],
 }];
