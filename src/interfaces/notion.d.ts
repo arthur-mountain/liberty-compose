@@ -1,10 +1,11 @@
 declare namespace Notion {
-  interface Categories {
+  interface NotionPages {
     category: string;
     pageId: string;
     pageUrl: string;
     priority: number;
     title: string;
+    children: NotionPages[];
   };
 
   interface SubNavList {

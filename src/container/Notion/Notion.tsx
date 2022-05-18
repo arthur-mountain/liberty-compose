@@ -1,59 +1,87 @@
 import React, { useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import { getPageBlocks } from 'services/Notion';
-import Categories from './Categories/Categories';
+import Select from './Select/Select';
 
 // TODO: shpuld use axios interator for error(422 default can't be catch);
 // TODO: isInit, isLoading status;
 // TODO: services axios intance should filter some information;
 // TODO: variables should rename;
+// TODO: add preview, depends on notion data type;
+//   current known type has: child_page, toggle, code, photography
 const Notion = () => {
-  const [categories, setCategories] = useState<Notion.Categories[]>([]);
-  const [stateSubNavList, setStateSubNavList] = useState<Notion.SubNavList | null>(null);
+  const [notionPages, setNotionPages] = useState<Notion.NotionPages[]>([]);
 
-  const handleClick = async (e, pageId) => {
+  const appendChildrenPage = (pages, pageId, data) => {
+    return pages.map(page => {
+      const id = page?.pageId || page?.id;
+      if (id === pageId) return { ...page, children: data };
+
+      if (page?.children) {
+        return {
+          ...page,
+          children: {
+            ...page.children,
+            data: appendChildrenPage(page.children.data, pageId, data)
+          }
+        }
+      };
+
+      return page
+    });
+  }
+
+  const handleClick = async (e, page) => {
+    if (page.has_children && !page.has_children) return;
     e.preventDefault();
 
     try {
+      const pageId = page?.pageId || page?.id;
       const resp = await getPageBlocks({ pageId, perPage: 20 });
+      const data = resp.data.data;
 
-      if (resp.data.tatusCode === 200) {
-        setStateSubNavList(resp.data.data)
+      if (resp.data.statusCode === 200) {
+        setNotionPages(prevPages => {
+          return appendChildrenPage(prevPages, pageId, data);
+        });
       } else {
         throw new Error(resp.data.tatusCode);
       };
     } catch (error) {
-      console.log('Get page blocks error: ', error.response.data.message);
+      console.log('Get page blocks error: ', error);
     }
   };
 
   useEffect(() => {
     fetch('/api/notion')
       .then(res => res.json())
-      .then(categories => {
-        if (categories?.statusCode === 200) {
-          setCategories(categories.data)
+      .then(notionPages => {
+        if (notionPages?.statusCode === 200) {
+          setNotionPages(notionPages.data)
           return
         }
 
-        throw new Error(categories.message);
+        throw new Error(notionPages.message);
       })
       .catch(error => console.log('my error: ', error.message));
   }, [])
 
   return (
     <>
-      Notion<br />
-      <Categories categories={categories} handleClick={handleClick} />
-      <hr></hr>
-      {stateSubNavList?.data?.map(subNav => (
-        <div key={subNav.id}>
-          {/* TODO: type Condition, like toggle without child_page.title */}
-          {subNav?.child_page?.title}
-        </div>
-      ))}
+      <Typography
+        variant="h4"
+        gutterBottom
+        noWrap
+        component="h2"
+        // TODO: change color
+        sx={{ color: 'grey.dark' }}
+      >
+        Notion
+      </Typography>
+      <Select notionPages={notionPages} handleClick={handleClick} />
+      {/* TODO: preview */}
     </>
   )
-}
+};
 
 export default Notion;
