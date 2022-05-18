@@ -48,7 +48,7 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
         xs: '100%',
       },
       height: {
-        sm: '100vh',
+        sm: 'auto',
         xs: isOpen ? '100vh' : 0,
       },
       backgroundColor: 'background.default',
@@ -64,6 +64,11 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
           easing: theme.transitions.easing.sharp,
           duration: theme.transitions.duration.enteringScreen,
         }),
+      },
+      // TODO: index should define; modal or header or sidebar...
+      [theme.breakpoints.down('sm')]: {
+        position: 'fixed',
+        zIndex: 1050
       },
     }}>
       <Box sx={{

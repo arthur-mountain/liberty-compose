@@ -52,6 +52,7 @@ const Layout = ({ children }: Props) => {
 
   return (
     <Box sx={{
+      minHeight: '100vh',
       display: 'flex',
       // [theme.breakpoints.up(key)]: {flexDirection: value}
       flexDirection: {
