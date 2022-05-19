@@ -5,32 +5,55 @@ declare namespace Notion {
     pageUrl: string;
     priority: number;
     title: string;
-    children: NotionPages[];
+    children: ChildrenData[];
   };
 
-  interface SubNavList {
+  interface ChildrenData {
     hasMoreParams: boolean;
-    data: Notion.SubNavListData[];
+    data: Notion.BlocksData[];
   };
 
-  type SubNavListData = {
-    object: string;
+  type BlocksData = {
+    object: "block";
     id: string;
     created_time: string;
     last_edited_time: string;
-    created_by: {
-      object: string;
-      id: string;
-    },
-    last_edited_by: {
-      object: string;
-      id: string;
-    },
+    created_by: { object: "user"; id: string; },
+    last_edited_by: { object: "user"; id: string; },
     has_children: boolean;
     archived: boolean;
-    type: string; // should contrains
-    child_page: {
-      title: string;
-    }
+    type: Notion.PreviewBlockType,
+    [key: Notion.PreviewBlockType]: {
+      rich_text: Notion.RichTextDefault[],
+      color: string;
+    };
+  } & Divider & Callout & Code & ChildPage;
+
+  type PreviewBlockType = "heading_1" | "heading_2" | "heading_3" | "paragraph" | "code" | "divider" | "toggle" | "numbered_list_item" | "callout" | "child_page";
+
+  type RichTextDefault = {
+    type: "text",
+    text: { content: string; link: string; };
+    annotations: {
+      bold: boolean; italic: boolean; strikethrough: boolean; underline: boolean; code: boolean; color: string;
+    },
+    plain_text: string;
+    href: string;
   };
+
+  type Divider = {}
+
+  type Callout = {
+    rich_text: Notion.RichTextDefault[];
+    icon: { type: "emoji"; emoji: "💡"; };
+    color: string;
+  }
+
+  type Code = {
+    caption: any; // Not sure value
+    rich_text: Notion.RichTextDefault[];
+    language: "javascript";
+  }
+
+  type ChildPage = { child_page: { title: string; } };
 }

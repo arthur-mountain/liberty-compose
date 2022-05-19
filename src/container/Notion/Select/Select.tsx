@@ -24,7 +24,7 @@ const Select = ({ notionPages = [], handleClick }: Props) => {
   }
 
   return (
-    <ButtonGroup orientation="vertical">
+    <ButtonGroup orientation="vertical" sx={{ minHeight: "300px" }}>
       {renderTree(notionPages)}
     </ButtonGroup>
   )
