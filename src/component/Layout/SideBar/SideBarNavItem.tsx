@@ -13,7 +13,7 @@ type Props = {
   isOpen: boolean;
   isActive: boolean;
   onClick: () => void;
-  addtionalSxProps?: SxProps<Theme>;
+  additionalSxProps?: SxProps<Theme>;
 };
 
 const SideBarNavItem = ({
@@ -23,7 +23,7 @@ const SideBarNavItem = ({
   isOpen,
   isActive,
   onClick,
-  addtionalSxProps = {},
+  additionalSxProps = {},
 }: Props) => {
   const color = isActive ? 'primary.main' : 'common.white';
 
@@ -32,7 +32,7 @@ const SideBarNavItem = ({
       sx={{
         background: ({ palette }) => isActive ? palette.action.selected : 'background.default',
         ":hover": { background: ({ palette }) => palette.action.selected },
-        ...addtionalSxProps
+        ...additionalSxProps
       }}
     >
       <Link href={href}>

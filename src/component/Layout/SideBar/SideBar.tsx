@@ -21,7 +21,7 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
   const isHorizontal = useMediaQuery(theme.breakpoints.up('sm'));
 
   const renderSideBarRecursion = (navs,
-    { listStyle = {}, addtionalSxProps = {} } = {}
+    { listStyle = {}, additionalSxProps = {} } = {}
   ) => {
     if (!navs) return;
     const isToggleAble = isHorizontal ? !isOpen : isOpen;
@@ -33,9 +33,9 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
             {...nav}
             isOpen={isOpen}
             onClick={isToggleAble && handleToggle}
-            addtionalSxProps={addtionalSxProps}
+            additionalSxProps={additionalSxProps}
           />
-          {isOpen && renderSideBarRecursion(nav?.subNavs, { listStyle: { px: 0 }, addtionalSxProps: { px: 4 } })}
+          {isOpen && renderSideBarRecursion(nav?.subNavs, { listStyle: { px: 0 }, additionalSxProps: { px: 4 } })}
         </React.Fragment>
       ))}
     </List>
@@ -65,10 +65,9 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
           duration: theme.transitions.duration.enteringScreen,
         }),
       },
-      // TODO: index should define; modal or header or sidebar...
       [theme.breakpoints.down('sm')]: {
         position: 'fixed',
-        zIndex: 1050
+        zIndex: theme.zIndex.drawer
       },
     }}>
       <Box sx={{
