@@ -1,7 +1,7 @@
 /// <reference types="@notionhq/client" />
 declare namespace NotionApi {
   interface NotionType {
-    getDataBaseContents: () => [DataBaseData, NotionError];
+    getCategories: () => [DataBaseData, NotionError];
     getBlocksData: (SearchBlocksData: SearchBlocksData) => [BlocksData, NotionError];
   }
 

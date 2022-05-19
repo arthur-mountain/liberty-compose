@@ -6,7 +6,7 @@ const { NOTION_API_KEY, NOTION_DATABASE_ID } = process.env;
 const notion = new Client({ auth: NOTION_API_KEY });
 const DEFAULT_PER_PAGE = 20;
 
-const getDataBaseContents = async () => {
+const getCategories = async () => {
   const response = await notion.databases.query({
     database_id: NOTION_DATABASE_ID as string,
     filter: { property: 'status', number: { equals: 1 } },
@@ -49,6 +49,6 @@ const getBlocksData = async (params) => {
 };
 
 export default transFnsWithErrorWrapper([
-  getDataBaseContents,
+  getCategories,
   getBlocksData
 ])
