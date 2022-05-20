@@ -35,7 +35,9 @@ const Preview = ({ previewData }: Props) => {
 
       if (children) titleIndexRef.current += 1;
 
-      return <Box key={`__${data.type}_${idx}`}>{children}</Box>
+      return <Box key={`__${data.type}_${idx}`}>
+        {children}
+      </Box>
     })
   ), [previewData])
 

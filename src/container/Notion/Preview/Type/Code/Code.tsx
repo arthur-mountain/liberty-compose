@@ -6,7 +6,6 @@ type Props = {
 }
 
 const Code = ({ content, titleIndex }: Props) => {
-
   return (
     <div>
       {titleIndex}. {content.language}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { getPageBlocks } from 'services/Notion';
@@ -16,6 +16,8 @@ const Notion = () => {
   const [notionPages, setNotionPages] = useState<Notion.NotionPages[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [previewData, setPreviewData] = useState<Notion.BlocksData[]>([]);
+  console.log("🚀 ~ file: Notion.tsx ~ line 19 ~ Notion ~ previewData", previewData)
+  const cacheCheckIsClicked = useRef({});
 
   const assortPreviewOrChildData = (respData) => {
     const childData = [];
@@ -25,7 +27,7 @@ const Notion = () => {
     });
 
     setPreviewData(prev => [...prev, ...previewData]);
-    return { ...respData, data: childData }
+    return { ...respData, data: childData };
   }
 
   const appendChildrenPage = (pages, pageId, respData) => {
@@ -33,8 +35,7 @@ const Notion = () => {
 
     return pages.map(page => {
       const id = page?.id || page?.pageId;
-      const children =
-        { ...newRespData, title: page?.childe_page?.title || page?.title };
+      const children = { ...newRespData, };
 
       if (id === pageId) return { ...page, children };
 
@@ -56,10 +57,13 @@ const Notion = () => {
     e.preventDefault();
 
     if (page.has_children && !page.has_children) return;
-    setIsLoading(true);
+
+    const pageId = page?.pageId || page?.id;
+
+    if (cacheCheckIsClicked.current[pageId]) return;
+    cacheCheckIsClicked.current = { ...cacheCheckIsClicked.current, [pageId]: 1 };
 
     try {
-      const pageId = page?.pageId || page?.id;
       const resp = await getPageBlocks({ pageId, perPage: 20 });
       const respData = resp.data.data;
 
@@ -72,7 +76,7 @@ const Notion = () => {
       };
     } catch (error) {
       console.log('Get page blocks error: ', error);
-    } finally { setIsLoading(false); }
+    }
   };
 
   useEffect(() => {
@@ -108,25 +112,24 @@ const Notion = () => {
         Notion
       </Typography>
       <Box sx={[
-        { display: 'flex', alignItems: 'flex-start', justifyContent: 'center', flexWrap: 'wrap' }
+        { display: 'flex', alignItems: 'flex-start', justifyContent: 'center' },
+        { flexWrap: { xs: 'wrap', sm: 'nowrap' }, }
       ]}>
         {/* TODO: RWD should fixed */}
-        {isLoading ? (
-          <Skeleton >
-            <Box sx={{ flex: 1 }}>
-              <Select notionPages={notionPages} handleClick={handleClick} />
-            </Box>
-          </Skeleton>
-        ) : (
-          <Box sx={{ flex: 1 }}>
+        <Box sx={[
+          { height: isLoading ? 300 : 'auto' },
+          { flexBasis: { xs: '100%', sm: '30%' }, mr: { xs: 0, sm: 2.5 }, mb: { xs: 1.5, sm: 0 } }
+        ]}>
+          {isLoading ? (
+            <Skeleton />
+          ) : (
             <Select notionPages={notionPages} handleClick={handleClick} />
-          </Box>
-        )}
-        <Box sx={{
-          flex: 2,
-          border: ({ palette }) => `1px solid ${palette.grey['900']}`,
-          minHeight: '100vh',
-        }}>
+          )}
+        </Box>
+        <Box sx={[
+          { border: ({ palette }) => `1px solid ${palette.grey['900']}`, minHeight: '100vh', },
+          { flexBasis: { xs: '100%', sm: '70%' }, }
+        ]}>
           <Preview previewData={previewData} />
         </Box>
       </Box>
