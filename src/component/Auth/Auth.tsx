@@ -39,9 +39,10 @@ const theme = createTheme({
  */
 const Auth = ({ children }: Props) => {
   const [store, action] = useAuth();
+  const { customTheme } = store;
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={customTheme || theme}>
       <AuthCtx.Provider value={{ store, action }}>
         {children}
       </AuthCtx.Provider>

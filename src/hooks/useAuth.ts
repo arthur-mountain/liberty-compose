@@ -1,30 +1,41 @@
 import { createContext, useContext, useReducer } from 'react';
+import { Theme } from '@mui/material/styles';
 
 enum ActionTypes {
   INIT,
   INIT_SUCCESS,
-  INIT_FAIL
+  INIT_FAIL,
+  CHANGE_THEME
 }
 
 type Store = {
   isLoading: boolean;
+  customTheme: Theme;
 }
 
 type Action = {
-  type: number,
-  payload?: any;
+  init: () => void;
+  changeTheme: (params: Theme) => void;
 }
 
-export const AuthCtx = createContext<{ store, action }>(null);
+type ActionReducer = { type: number, payload?: any };
+
+export const AuthCtx = createContext<{ store: Store, action: Action }>(null);
 export const useAuthCtx = () => useContext(AuthCtx);
 
 // For fratures can add additional type condition.
-function reducer(store: Store, action: Action) {
+function reducer(store: Store, action: ActionReducer) {
   switch (action.type) {
     case ActionTypes.INIT_SUCCESS:
       return {
         ...store,
         isLoading: false,
+      };
+
+    case ActionTypes.CHANGE_THEME:
+      return {
+        ...store,
+        customTheme: action.payload.customTheme
       };
 
     default:
@@ -36,14 +47,22 @@ function reducer(store: Store, action: Action) {
 
 const initStore: Store = {
   isLoading: true,
+  customTheme: null
 }
 
-function useAuth() {
+function useAuth(): [Store, Action] {
   const [store, dispatch] = useReducer(reducer, initStore);
 
   const action = {
     init: () => {
       dispatch({ type: ActionTypes.INIT_SUCCESS })
+    },
+    changeTheme: (params) => {
+      dispatch({
+        type: ActionTypes.CHANGE_THEME, payload: {
+          customTheme: params
+        }
+      })
     },
   };
 

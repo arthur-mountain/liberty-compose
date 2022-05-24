@@ -58,14 +58,14 @@ const Layout = ({ children }: Props) => {
       flexDirection: {
         xs: 'column',
         sm: 'row'
-      }
+      },
     }}>
       <Header isOpen={isSideBarOpen} handleToggle={handleToggle} breadcrumbs={breadcrumbs} />
       <SideBar isOpen={isSideBarOpen} handleToggle={handleToggle} sideBarNavs={stateNavs} />
       <Container
         component='main'
         onClick={isSideBarOpen ? handleToggle : undefined}
-        sx={{ flex: 1, mt: ({ mixins }) => (`${mixins.toolbar.minHeight as number + 24}px`) }}
+        sx={{ flex: 1, mt: ({ mixins }) => (`${mixins.toolbar.minHeight as number + 24}px`), pb: 5 }}
       >
         {children}
       </Container>
