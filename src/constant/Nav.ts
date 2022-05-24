@@ -28,7 +28,7 @@ export const NavList: NavListType[] = [{
   key: 'Notion',
   title: 'Notion',
   permissionLevel: 1,
-  isHidden: false,
+  isHidden: true,
   iconName: 'eventnote',
   href: '/notion',
   isActive: false,

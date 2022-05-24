@@ -20,7 +20,7 @@ const Layout = ({ children }: Props) => {
       if (!navs) return;
 
       return navs
-        .filter(nav => mockPermissionLevel >= nav.permissionLevel)
+        .filter(nav => mockPermissionLevel >= nav.permissionLevel && !nav.isHidden)
         .map(nav => {
           const subNavs = transActiveStatusRecursion(nav?.subNavs);
           const currentNav = { ...nav, isActive: nav.href === pathname };
