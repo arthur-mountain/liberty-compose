@@ -71,4 +71,17 @@ h1 {
   transform:scale(1.2);
   transition: 0.5s ease-in-out;
 }
+
+.custom-scroll-bar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+ 
+.custom-scroll-bar::-webkit-scrollbar-track {
+  background-color: #61dafb;
+  border-radius: 2rem;
+}
+ 
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
 `;

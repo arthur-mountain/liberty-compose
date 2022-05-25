@@ -16,7 +16,6 @@ const Notion = () => {
   const [notionPages, setNotionPages] = useState<Notion.NotionPages[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [previewData, setPreviewData] = useState<Notion.BlocksData[]>([]);
-  console.log("🚀 ~ file: Notion.tsx ~ line 19 ~ Notion ~ previewData", previewData)
   const cacheCheckIsClicked = useRef({});
 
   const assortPreviewOrChildData = (respData) => {
