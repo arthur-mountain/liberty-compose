@@ -12,11 +12,12 @@ export const SIDE_BAR_WIDTH = 240;
 
 type Props = {
   isOpen: boolean;
+  width: number;
   handleToggle: () => void;
   sideBarNavs: NavListType[];
 }
 
-const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
+const SideBar = ({ isOpen,width, handleToggle, sideBarNavs }: Props) => {
   const theme = useTheme();
   const isHorizontal = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -44,11 +45,11 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
   return (
     <Box sx={{
       width: {
-        sm: isOpen ? SIDE_BAR_WIDTH : `calc(${theme.spacing(8)} + 1px)`,
+        sm: isOpen ? width : `calc(${theme.spacing(8)})`,
         xs: '100%',
       },
       height: {
-        sm: 'auto',
+        sm: '100vh',
         xs: isOpen ? '100vh' : 0,
       },
       backgroundColor: 'background.default',
@@ -65,10 +66,12 @@ const SideBar = ({ isOpen, handleToggle, sideBarNavs }: Props) => {
           duration: theme.transitions.duration.enteringScreen,
         }),
       },
-      [theme.breakpoints.down('sm')]: {
-        position: 'fixed',
-        zIndex: theme.zIndex.drawer
-      },
+      position: 'fixed',
+      zIndex: theme.zIndex.drawer
+      // [theme.breakpoints.down('sm')]: {
+      //   position: 'fixed',
+      //   zIndex: theme.zIndex.drawer
+      // },
     }}>
       <Box sx={{
         display: 'flex',

@@ -80,7 +80,7 @@ const Header = ({ isOpen, handleToggle, breadcrumbs }: Props) => {
           >
             {!isHorizontal && isOpen ? <CloseIcon /> : <MenuIcon />}
           </IconButton>
-          <Breadcrumbs
+          {isHorizontal && <Breadcrumbs
             aria-label="breadcrumbs"
             maxItems={5}
             itemsBeforeCollapse={3}
@@ -98,7 +98,7 @@ const Header = ({ isOpen, handleToggle, breadcrumbs }: Props) => {
                 </MuiLink>
               </Link>
             ))}
-          </Breadcrumbs>
+          </Breadcrumbs>}
         </Box>
         <Box>
           <IconButton

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import Container from '@mui/material/Container';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import SideBar from './SideBar/SideBar';
 import Header from './Header/Header';
@@ -10,9 +10,11 @@ type Props = {
   children: React.ReactNode;
 };
 const mockPermissionLevel = 3;
+const SIDE_BAR_WIDTH = 240;
 
 const Layout = ({ children }: Props) => {
   const pathname = useRouter().pathname;
+  const theme = useTheme();
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
   const handleToggle = () => setIsSideBarOpen(!isSideBarOpen);
   const stateNavs = useMemo<NavListType[]>(() => {
@@ -61,14 +63,23 @@ const Layout = ({ children }: Props) => {
       },
     }}>
       <Header isOpen={isSideBarOpen} handleToggle={handleToggle} breadcrumbs={breadcrumbs} />
-      <SideBar isOpen={isSideBarOpen} handleToggle={handleToggle} sideBarNavs={stateNavs} />
-      <Container
+      <SideBar isOpen={isSideBarOpen} handleToggle={handleToggle} sideBarNavs={stateNavs} width={SIDE_BAR_WIDTH} />
+      <Box
         component='main'
         onClick={isSideBarOpen ? handleToggle : undefined}
-        sx={{ flex: 1, mt: ({ mixins }) => (`${mixins.toolbar.minHeight as number + 24}px`), pb: 5 }}
+        sx={{
+          flex: 1,
+          mt: `${theme.mixins.toolbar.minHeight as number + 24}px`,
+          pb: 5,
+          pr: 3,
+          ml: 3,
+          [theme.breakpoints.up('sm')]: {
+            ml: isSideBarOpen ? `calc(${SIDE_BAR_WIDTH}px + 24px)` : `calc(${theme.spacing(8)} + 24px)`
+          }
+        }}
       >
         {children}
-      </Container>
+      </Box>
     </Box>
   )
 }

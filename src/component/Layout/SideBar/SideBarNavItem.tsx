@@ -25,7 +25,7 @@ const SideBarNavItem = ({
   onClick,
   additionalSxProps = {},
 }: Props) => {
-  const color = isActive ? 'primary.main' : 'common.white';
+  const color = 'text.icon';
 
   return (
     <ListItem
