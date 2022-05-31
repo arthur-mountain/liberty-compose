@@ -7,7 +7,7 @@ export default global`
   list-style: none;
 }
 
-body,html{
+body, html{
   height:100%;
   overflow-x: hidden;
 }

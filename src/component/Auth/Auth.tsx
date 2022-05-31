@@ -36,6 +36,7 @@ const theme = createTheme({
  *  TODO:
  *    1. Add a page that adjust theme by user.
  *    2. Mui palette should adjust to custom color.
+ *    3. useAuth add login status
  */
 const Auth = ({ children }: Props) => {
   const [store, action] = useAuth();

@@ -1,14 +1,20 @@
 import React from 'react';
+import type { NextPage } from 'next'
 import type { AppProps } from 'next/app';
 import Meta from 'component/Meta/Meta';
-import AuthProvider from 'component/Auth/Auth';
-import Layout from 'component/Layout/Layout';
+import Auth from 'component/Auth/Auth';
 import global from 'styles/globals.styles';
 import reset from 'styles/reset.styles';
 
-type MyAppProps = AppProps
+type PageProps = NextPage & {
+  Layout: React.FC<{ children: React.ReactNode }>;
+}
+
+type MyAppProps = AppProps & { Component: PageProps };
 
 function MyApp({ Component, pageProps }: MyAppProps) {
+  const Layout = Component.Layout && Component.Layout;
+
   return (
     <React.Fragment>
       <Meta>
@@ -34,11 +40,17 @@ function MyApp({ Component, pageProps }: MyAppProps) {
           href="https://fonts.googleapis.com/css2?family=Material+Icons+Round"
         /> */}
       </Meta>
-      <AuthProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </AuthProvider>
+      <Auth>
+        {Layout ? (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        ) : (
+          <main>
+            <Component {...pageProps} />
+          </main>
+        )}
+      </Auth>
       <style jsx>{reset}</style>
       <style jsx>{global}</style>
     </React.Fragment>
