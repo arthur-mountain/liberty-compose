@@ -19,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
     return res.status(500).json({ statusCode: 500, message: error })
   }
 
-  res.status(200).json({ statusCode: 200, data: blocksData });
+  res.status(200).json({ statusCode: 200, items: { data: blocksData } });
 };
 
 export default handler;
