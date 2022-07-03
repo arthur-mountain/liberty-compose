@@ -11,7 +11,7 @@ type Props = {
   handleChange: (e: any) => void; //_.debounce(handleChange(key), 1000)\
 }
 
-const disableColorSettingAry = ['primaryChannel', 'secondaryChannel', 'darkChannel', 'activeChannel'];
+const disableColorSettingAry = ['primaryChannel', 'secondaryChannel', 'darkChannel', 'activeChannel', 'selectedChannel'];
 
 const SettingItem = ({ title, values, isLast, handleChange }: Props) => {
   return (
@@ -40,6 +40,7 @@ const SettingItem = ({ title, values, isLast, handleChange }: Props) => {
         <Box sx={{ ml: 1 }}>
           {Object.keys(values).map(valueKey => {
             if (disableColorSettingAry.indexOf(valueKey) > -1) return;
+
             const inputType = typeof values[valueKey] === 'string' ? 'color' : 'number';
             const inputValue = inputType === 'color' ? Color(values[valueKey]).hex() : values[valueKey];
             const numberProps = inputType === 'color' ? {} : { min: " 0", max: "1", step: "0.1" };

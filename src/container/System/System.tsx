@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import _ from 'lodash';
 import { useTheme, Palette } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -12,7 +12,9 @@ import { useAuthCtx } from 'hooks/useAuth';
 const System = () => {
   const theme = useTheme();
   const { action: authAction } = useAuthCtx();
+  const [isPending, startTransition] = useTransition()
   const [palette, setPalette] = useState<Palette>(theme.palette);
+  const [isCopyed, setIsCopyed] = useState<boolean>(false);
   const [isShowResult, setIsShowResult] = useState<boolean>(false);
   const entries = Object.entries(palette);
   const transChangeVal = (value: string) => {
@@ -35,9 +37,34 @@ const System = () => {
   }
 
   const handleApply = (e) => {
-    e.preventDefault();
+    e.stopPropagation();
     authAction.changeTheme({ ...theme, palette });
   }
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(JSON.stringify(palette))
+    startTransition(()=>{
+      setIsCopyed(true)
+    })
+  }
+  
+  useEffect(() => {
+    let id
+    
+    if (isCopyed) {
+      id = setTimeout(() => {
+        startTransition(()=>{
+          setIsCopyed(false)
+          clearTimeout(id)
+        })
+      }, 1000)
+    }
+
+    return () => {
+      if (id) clearTimeout(id)
+    }
+  }, [isCopyed])
 
   return (
     <>
@@ -72,7 +99,11 @@ const System = () => {
           Apply
         </Button>
       </Box>
-      <TestComponent />
+      {/* test component */}
+      <Box sx={{ mt: 3 }}>
+        <TestComponent />
+      </Box>
+      {/* Handle modal */}
       <Box sx={{ display: 'flex', alignItems: 'center', mt: 5 }}>
         <Button
           variant="contained"
@@ -83,12 +114,14 @@ const System = () => {
           {isShowResult ? 'Close' : 'Result'}
         </Button>
       </Box>
+      {/* Modal */}
       <Modal
         open={isShowResult}
         onClose={() => setIsShowResult(!isShowResult)}
       >
         <Box
           className='custom-scroll-bar'
+          onClick={handleCopy}
           sx={{
             position: 'absolute' as 'absolute',
             top: '50%',
@@ -102,8 +135,14 @@ const System = () => {
             boxShadow: 24,
             p: 4,
             wordBreak: "break-all",
-            color: 'text.secondary'
+            color: 'text.secondary',
+            cursor: 'pointer'
           }}>
+          {!isPending && isCopyed && (
+            <Typography component='h3' sx={{ color: 'common.white', textAlign: 'center', mb: 2 }}>
+              copy success
+            </Typography>
+          )}
           {JSON.stringify(palette)}
         </Box>
       </Modal>
