@@ -84,4 +84,8 @@ h1 {
 .custom-scroll-bar::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
+
+[draggable='true']{
+  user-select: none;
+}
 `;

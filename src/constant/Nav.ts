@@ -13,7 +13,7 @@ export type NavListType = ListType & {
 };
 
 /** 
- * Permisiion: 1: common, 2:middle, 3:high , 
+ * Permission: 1: common, 2:middle, 3:high , 
  * high level permission will contain low level functions.
  * */
 export const NavList: NavListType[] = [{
